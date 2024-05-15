@@ -1,0 +1,49 @@
+<div class="row d-flex top-row">
+    <div class="col input-group w-auto">
+        <input class="form-control" type="text" placeholder="Search Ticket" #filter>
+        <button type="button" class="btn clear-btn" (click)="clearFilter()">
+            <i class="bi bi-x-lg"></i>
+        </button>
+        <button data-mdb-button-init data-mdb-ripple-init class="btn btn-primary" data-mdb-ripple-color="dark" type="button" (click)="filterTicket(filter.value)">
+            <i class="bi bi-search"></i>
+        </button>
+        
+    </div>
+    
+    <div class="col-3">
+        <button type="button" 
+            class="btn btn-primary float-end add-btn" 
+            data-toggle="button" aria-pressed="false" 
+            autocomplete="off" 
+            data-mdb-modal-init
+            (click)="openAddTicketModal()" >
+            Add Ticket <i class="bi bi-plus-lg"></i>
+          </button>
+    </div>
+</div>
+
+<div class="table-responsive main-table-container">
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th class="main-table-header" >Ticket Number</th>
+                <th class="main-table-header" >Title</th>
+                <th class="main-table-header" >Severity</th>
+                <th class="main-table-header" >Status</th>
+                <th class="main-table-header" >Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let ticket of filteredTicketList">
+                <td>{{ticket.ticketNumber}}</td>
+                <td>{{ticket.title}}</td>
+                <td>{{ticket.severity}}</td>
+                <td>{{ticket.status}}</td>
+                <td class="action-column">
+                    <app-module-actions [id]="ticket.ticketNumber"></app-module-actions>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+

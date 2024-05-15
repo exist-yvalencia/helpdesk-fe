@@ -1,0 +1,89 @@
+<div class="modal-content"> 
+    <div class="modal-header">
+      <h5 class="modal-title">Add Ticket</h5>
+      <button type="button" class="btn-close" aria-label="Close" (click)="close()"></button>
+    </div>
+    <div class="modal-body">
+        <form [formGroup]="addTicketForm" (ngSubmit)="addTicket()">
+            <div class="mb-3 form-group row">
+                <label class="col-1 col-form-label">Title:</label>
+                <div class="col-4">
+                    <input 
+                        type="text" 
+                        formControlName="title" 
+                        class="form-control"
+                        [ngClass]="{ 'is-invalid': submitted && f.title.errors }">
+                </div>
+                <span class="col-2"></span>
+                <label class="col-1 col-form-label">Status:</label>
+                <div class="col-4 form-group">
+                    <select 
+                        class="form-control" 
+                        formControlName="status"
+                        [ngClass]="{ 'is-invalid': submitted && f.status.errors }">
+                        <option value="" disabled selected>Select a status</option>
+                        <option *ngFor="let status of statusList" [value]="status">
+                            {{statusMapping[status]}}
+                        </option>
+                    </select>
+                </div>
+            </div>
+            <div class="mb-3 form-group row">
+                <div class="col-6">
+                    <label class="form-label">Description:</label>
+                    <textarea 
+                        class="form-control"
+                        formControlName="description"
+                        [ngClass]="{ 'is-invalid': submitted && f.description.errors }"></textarea>
+                </div>
+                <span class="col-1"></span>
+                <label class="col-1 col-form-label">Severity:</label>
+                <div class="col-4 form-group">
+                    <select 
+                        class="form-control"
+                        formControlName="severity"
+                        [ngClass]="{ 'is-invalid': submitted && f.severity.errors }">
+                        <option value="" disabled selected>Select ticket severity</option>
+                        <option *ngFor="let severity of severityList" [value]="severity">
+                            {{severityMapping[severity]}}
+                        </option>
+                    </select>
+                </div>
+            </div>
+            <div class="mb-3 form-group row">
+                <label class="col-2 col-form-label">Assignee:</label>
+                <div class="col-8 form-group">
+                    <select class="form-control" formControlName="assignee">
+                        <option value="" disabled selected>Select an assignee</option>
+                        <option *ngFor="let employee of employeeList" [value]="employee.id">
+                            {{employee.employeeNumber}}: {{employee.firstName}} {{employee.middleName}} {{employee.lastName}}
+                        </option>
+                    </select>
+                </div>
+            </div>
+            <div class="mb-3 form-group row">
+                <label class="col-2 col-form-label">Watchers:</label>
+                <ng-multiselect-dropdown
+                    class="col-8"
+                    theme="Bootstrap 5"
+                    [placeholder]="'Choose ticket watchers'"
+                    [settings]="dropdownSettings"
+                    [data]="watchersList"
+                    formControlName="selectedWatchers"
+                    [ngClass]="{ 'is-invalid': submitted && f.selectedWatchers.errors }"
+                    ></ng-multiselect-dropdown>
+                <div *ngIf="submitted && watchersError"class="col">
+                    <i class="bi bi-exclamation-circle" style = "color:red;"></i>
+                </div>
+            </div>
+        </form>
+      
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" (click)="close()">
+        Cancel
+      </button>
+      <button type="button" class="btn btn-primary" (click)="addTicket()">Add</button>
+    </div>  
+</div>
+

@@ -1,0 +1,8 @@
+.assigned-ticket-table {
+    margin: 5px;
+}
+
+.view-modal-body {
+    height: 50vh;
+    overflow-y: auto;
+}

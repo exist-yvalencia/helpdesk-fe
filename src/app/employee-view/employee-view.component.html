@@ -1,0 +1,60 @@
+<div class="modal-content"> 
+    <div class="modal-header">
+      <h5 class="modal-title" id="exampleModalLabel">Employee Data</h5>
+      <button type="button" class="btn-close" aria-label="Close" (click)="close()"></button>
+    </div>
+    <div class="modal-body view-modal-body">
+        <div class="row">
+            <h5>{{employee.firstName}} {{employee.middleName}} {{employee.lastName}}</h5>
+        </div>
+        <div class="row">
+            <h6 class="col-3">ID: </h6>
+            <span class="col">{{employee.id}}</span>
+        </div>
+        <div class="row">
+            <h6 class="col-3">Employee Number: </h6>
+            <span class="col">{{employee.employeeNumber}}</span>
+        </div>
+        <div class="row">
+            <h6 class="col-3">Department: </h6>
+            <span class="col">{{employee.department}}</span>
+        </div>
+        <div class="row">
+            <h6>Assigned Tickets:</h6>
+        </div>
+        <div class="row assigned-ticket-table">
+            <table>
+                <thead>
+                    <tr *ngIf="assignedTickets.length > 0">
+                        <th>Ticket Number</th>
+                        <th>Title</th>
+                        <th>Description</th>
+                        <th>Status</th>
+                        <th>Severity</th>
+                        <th>Watchers</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let ticket of assignedTickets">
+                        <td>{{ticket.ticketNumber}}</td>
+                        <td>{{ticket.title}}</td>
+                        <td>{{ticket.description}}</td>
+                        <td>{{ticket.status}}</td>
+                        <td>{{ticket.severity}}</td>
+                        <td>
+                            <ul *ngFor="let watcher of ticket.watchers">
+                                <li>{{watcher.firstName}} {{watcher.middleName}} {{watcher.lastName}}</li>
+                            </ul>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="close()">
+          Close
+        </button>
+      </div>  
+</div>

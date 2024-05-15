@@ -1,0 +1,62 @@
+<div class="modal-content"> 
+    <div class="modal-header">
+      <h5 class="modal-title" id="exampleModalLabel">Ticket Info</h5>
+      <button type="button" class="btn-close" aria-label="Close" (click)="close()"></button>
+    </div>
+    <div class="modal-body view-modal-body">
+        <div class="row">
+            <h5>{{ticket.ticketNumber}}: {{ticket.title}}</h5>
+        </div>
+        <div class="row">
+            <h6 class="col-1">Status: </h6>
+            <span class="col-2">{{ticket.status}}</span>
+            <h6 class="col-1">Severity: </h6>
+            <span class="col-2">{{ticket.severity}}</span>
+        </div>
+        <div class="row">
+            <h6 class="col-2">Description: </h6>
+            <span class="col">{{ticket.description}}</span>
+        </div>
+        <div class="row ticket-employee-table">
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Employee Number</th>
+                        <th>Name</th>
+                        <th>Department</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngIf="ticket.assignee">
+                        <td><h6>Assignee</h6></td>
+                    </tr>
+                    <tr *ngIf="ticket.assignee">
+                        <td>{{ticket.assignee.id}}</td>
+                        <td>{{ticket.assignee.employeeNumber}}</td>
+                        <td>
+                            {{ticket.assignee.firstName}} {{ticket.assignee.middleName}} {{ticket.assignee.lastName}}
+                        </td>
+                        <td>{{ticket.assignee.department}}</td>
+                    </tr>
+                    <tr>
+                        <td><h6>Watchers</h6></td>
+                    </tr>
+                    <tr *ngFor="let watcher of ticket.watchers">
+                        <td>{{watcher.id}}</td>
+                        <td>{{watcher.employeeNumber}}</td>
+                        <td>
+                            {{watcher.firstName}} {{watcher.middleName}} {{watcher.lastName}}
+                        </td>
+                        <td>{{watcher.department}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="close()">
+          Close
+        </button>
+    </div>  
+</div>

@@ -1,0 +1,14 @@
+.clear-btn {
+    margin-left: -40px !important; 
+    z-index: 100;
+    border: 0;
+}
+
+.top-row {
+    margin-bottom: 30px;
+    margin-top: 20px;
+}
+
+.add-btn {
+    margin-right: 20px;
+}

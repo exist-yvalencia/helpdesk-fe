@@ -1,0 +1,22 @@
+ul.navbar-nav {
+    padding-left: 10%;
+    padding-right: 10%; 
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.navbar {
+    background-color: #476930 !important;
+}
+
+.main-body {
+    padding: 0;
+    margin: 0;
+    width: 100%;
+}
+router-outlet {
+    margin: 0;
+    width: 100%;
+}
+

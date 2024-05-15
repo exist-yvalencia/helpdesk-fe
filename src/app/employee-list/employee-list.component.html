@@ -1,0 +1,49 @@
+
+<div class="row d-flex top-row">
+    <div class="col input-group w-auto">
+        <input class="form-control" type="text" placeholder="Search Employee" #filter>
+        <button type="button" class="btn clear-btn" (click)="clearFilter()">
+            <i class="bi bi-x-lg"></i>
+        </button>
+        <button data-mdb-button-init data-mdb-ripple-init class="btn btn-primary" data-mdb-ripple-color="dark" type="button" (click)="filterEmployee(filter.value)">
+            <i class="bi bi-search"></i>
+        </button>
+        
+    </div>
+    
+    <div class="col-3">
+        <button type="button" 
+            class="btn btn-primary float-end add-btn" 
+            data-toggle="button" aria-pressed="false" 
+            autocomplete="off" 
+            data-mdb-modal-init
+            data-mdb-target="#exampleModal"
+            (click)="openAddEmployeeModal()" >
+            Add Employee <i class="bi bi-plus-lg"></i>
+          </button>
+    </div>
+</div>
+
+<div class="table-responsive main-table-container">
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th class="main-table-header" scope="col">Employee Number</th>
+                <th class="main-table-header" scope="col">Name</th>
+                <th class="main-table-header" scope="col">Department</th>
+                <th class="main-table-header" scope="col">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let employee of filteredEmployeeList">
+                <td>{{employee.employeeNumber}}</td>
+                <td>{{employee.firstName}} {{employee.middleName}} {{employee.lastName}}</td>
+                <td>{{employee.department}}</td>
+                <td class="action-column">
+                    <app-module-actions [id]="employee.id"></app-module-actions>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+

@@ -1,0 +1,77 @@
+
+<div class="modal-content"> 
+    <div class="modal-header">
+      <h5 class="modal-title" id="exampleModalLabel">Update Employee</h5>
+      <button type="button" class="btn-close" aria-label="Close" (click)="close()"></button>
+    </div>
+    <div class="modal-body">
+      <form [formGroup]="updateEmployeeForm" (ngSubmit)="updateEmployee()">
+        <div *ngIf="error" class="alert alert-danger mt-3 mb-0">{{error}}</div>
+        <div class="mb-3 form-group row">
+            <label class="col-3 col-form-label">Employee Number:</label>
+            <div class="col-3">
+              <input 
+                type="text" 
+                formControlName="employeeNumber" 
+                class="form-control" 
+                placeholder={{employee.employeeNumber}} 
+                value={{employee.employeeNumber}}/>
+            </div>
+            <label class="col-2 col-form-label">Department:</label>
+            <div class="col-4 form-group">
+                <select class="form-control" formControlName="department">
+                    <option value="" selected>{{departmentMapping[employee.department]}}</option>
+                    <option *ngFor="let dept of getDepartmentList(employee.department)" [value]="dept">{{departmentMapping[dept]}}</option>
+                </select>
+            </div>
+        </div>
+        <div class="mb-3 form-group row">
+          <div class="col-4">
+              <label class="form-label">First Name:</label>
+              <input 
+                type="text" 
+                formControlName="firstName" 
+                class="form-control" 
+                placeholder={{employee.firstName}}
+                [value]="employee.firstName" />
+          </div>
+          <div class="col-4">
+            <label class="form-label">Middle Name:</label>
+            <input 
+                type="text" 
+                formControlName="middleName" 
+                class="form-control" 
+                placeholder={{employee.middleName}}
+                [value]="employee.middleName" />
+          </div>
+          <div class="col-4">
+            <label class="form-label">Last Name:</label>
+            <input 
+                type="text" 
+                formControlName="lastName" 
+                class="form-control" 
+                placeholder={{employee.lastName}}
+                [value]="employee.lastName" />
+          </div>
+          
+        </div>
+        <div class="mb-3 row">
+            <label class="col-3 col-form-label">Assign a Ticket:</label>
+            <div class="col form-group">
+              <select class="form-control" formControlName="ticket">
+                <option value="" disabled selected>Select a ticket</option>
+                <option *ngFor="let tix of getTicketList()" [value]="tix.ticketNumber">
+                        {{tix.ticketNumber}}: {{tix.title}}
+                </option>
+              </select>
+            </div>
+        </div>
+      </form>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" (click)="close()">
+        Cancel
+      </button>
+      <button type="button" class="btn btn-primary" (click)="updateEmployee()">Update</button>
+    </div>  
+  </div>

@@ -1,1 +1,44 @@
-/* You can add global styles to this file, and also import other style files */
+@import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
+@import "../node_modules/bootstrap-icons/font/bootstrap-icons.css";
+
+a.nav-link {
+    font-size: large;
+    color: white;
+    text-decoration: none;
+}
+
+a.nav-link:hover {
+    text-decoration: none;
+    cursor: pointer;
+}
+
+thead tr th{
+    background: #86B049 !important;
+}
+
+thead th:first-of-type{
+    border-top-left-radius: 10px; 
+}
+
+thead th:last-of-type{
+    border-top-right-radius: 10px; 
+}
+
+.main-table-container {
+    height: 450px;
+    overflow: auto;
+}
+
+.main-table-header {
+    z-index: 100;
+    position: sticky;
+    top:0;
+}
+
+.modal-content {
+    width: 130% !important;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, 0%);
+}

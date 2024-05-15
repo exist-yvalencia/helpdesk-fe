@@ -1,0 +1,21 @@
+<div class="row min-vh-100">
+    <div class="col side-bar">
+        <div class="mb-10 row welcome-header">
+            <h4>Welcome, {{username}}!</h4>
+        </div>
+        <div class="list-group list-group-flush">
+            <a (click)="setEmployeeView()" class="list-group-item border-0" [ngClass]="isEmployeeViewActive ? 'active': ''">
+                Employee
+            </a>
+            <a (click)="setTicketView()" class="list-group-item border-0" [ngClass]="isTicketViewActive ? 'active': ''">
+                Ticket
+            </a>
+        </div>
+            
+    </div>
+    <div class="col-9 content">
+        <app-employee-list *ngIf="isEmployeeViewActive"></app-employee-list>
+        <app-ticket-list *ngIf="isTicketViewActive"></app-ticket-list>
+    </div>
+</div> 
+

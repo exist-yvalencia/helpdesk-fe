@@ -1,0 +1,83 @@
+<div class="modal-content"> 
+    <div class="modal-header">
+      <h5 class="modal-title" id="exampleModalLabel">Update Employee</h5>
+      <button type="button" class="btn-close" aria-label="Close" (click)="close()"></button>
+    </div>
+    <div class="modal-body">
+        <form [formGroup]="updateTicketForm" (ngSubmit)="updateTicket()">
+            <div class="mb-3 form-group row">
+                <label class="col-1 col-form-label">Title:</label>
+                <div class="col-4">
+                    <input 
+                        type="text" 
+                        formControlName="title" 
+                        class="form-control"
+                        placeholder={{ticket.title}}>
+                </div>
+                <span class="col-2"></span>
+                <label class="col-1 col-form-label">Status: </label>
+                <div class="col-4 form-group">
+                    <select 
+                        class="form-control" 
+                        formControlName="status">
+                        <option value="" selected>{{ticket.status}}</option>
+                        <option *ngFor="let status of getStatusList(ticket.status)" [value]="status">
+                            {{statusMapping[status]}}
+                        </option>
+                    </select>
+                </div>
+            </div>
+            <div class="mb-3 form-group row">
+                <div class="col-6">
+                    <label class="form-label">Description:</label>
+                    <textarea 
+                        class="form-control"
+                        formControlName="description"
+                        data-placeholder={{ticket.description}}></textarea>
+                </div>
+                <span class="col-1"></span>
+                <label class="col-1 col-form-label">Severity: </label>
+                <div class="col-4 form-group">
+                    <select 
+                        class="form-control"
+                        formControlName="severity">
+                        <option value="" selected>{{ticket.severity}}</option>
+                        <option *ngFor="let severity of getSeverityList(ticket.severity)" [value]="severity">
+                            {{severityMapping[severity]}}
+                        </option>
+                    </select>
+                </div>
+            </div>
+            <div class="mb-3 form-group row">
+                <label class="col-2 col-form-label">Assignee:</label>
+                <div class="col-8 form-group">
+                    <select class="form-control" formControlName="assignee">
+                        <option *ngIf="ticket.assignee" SwitchDefault="" selected>
+                            {{ticket.assignee.employeeNumber}}: {{ticket.assignee.firstName}} {{ticket.assignee.middleName}} {{ticket.assignee.lastName}}
+                        </option>
+                        <option *ngFor="let employee of getAssigneeList(ticket.assignee)" [value]="employee.id">
+                            {{employee.employeeNumber}}: {{employee.firstName}} {{employee.middleName}} {{employee.lastName}}
+                        </option>
+                    </select>
+                </div>
+            </div>
+            <div class="mb-3 form-group row">
+                <label class="col-2 col-form-label">Watchers:</label>
+                <ng-multiselect-dropdown
+                    class="col-8"
+                    theme="Bootstrap 5"
+                    [placeholder]="'Choose ticket watchers'"
+                    [settings]="dropdownSettings"
+                    [data]="watchersList"
+                    formControlName="selectedWatchers"
+                    ></ng-multiselect-dropdown>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="close()">
+          Cancel
+        </button>
+        <button type="button" class="btn btn-primary" (click)="updateTicket()">Update</button>
+      </div> 
+</div>
