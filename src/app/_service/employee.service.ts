@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders, HttpParams, HttpResponse } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable, Subject } from 'rxjs';
 import { Employee } from '../_model/employee.model';
 import { environment } from '../../environments/environment';
@@ -21,19 +21,28 @@ export class EmployeeService {
     return this.http.get<Employee[]>(`${environment.apiUrl}/employee/all`);
   }
 
-  public create(employee: Employee): void {
-    this.http.post(`${environment.apiUrl}/employee/add`, employee, {observe: 'response', responseType: 'text'}).subscribe({
-      next: res => {
-        if(res.status == 200) {
-          if(res.body){
-            this.subject.next(res.body.toString());
-          }          
-        }
-      },
-      error: err => {
-        this.subject.next("Error: Failed adding employee.");
-      }
-    });
+  public findAllByPage(page: number, size: number): Observable<Employee[]> {
+    return this.http.get<Employee[]>(`${environment.apiUrl}/employee/all?page=${page}&size=${size}`);
+  }
+
+  public getListSize() {
+    return this.http.get<number>(`${environment.apiUrl}/employee/all/size`);
+  }
+
+  public search(text: string, page: number, size: number) {
+    return this.http.get<Employee[]>(`${environment.apiUrl}/employee/search?text=${text}&page=${page}&size=${size}`);
+  }
+
+  public getSearchSize(text: string) {
+    return this.http.get<number>(`${environment.apiUrl}/employee/search/size?text=${text}`);
+  }
+
+  public createResponse(text: string) {
+    this.subject.next(text);
+  }
+
+  public create(employee: Employee) {
+    return this.http.post<Employee>(`${environment.apiUrl}/employee/add`, employee);
   }
 
   public update(employee: Employee): void {

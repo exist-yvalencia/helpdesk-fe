@@ -12,3 +12,7 @@
 .add-btn {
     margin-right: 20px;
 }
+
+pagination-controls {
+    float: right;
+}

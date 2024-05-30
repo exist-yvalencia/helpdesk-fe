@@ -5,8 +5,8 @@ import { MdbModalRef, MdbModalService } from 'mdb-angular-ui-kit/modal';
 import { NgToastService } from 'ng-angular-popup';
 import { TicketAddComponent } from '../ticket-add/ticket-add.component';
 import { Subscription } from 'rxjs';
-import { EmployeeService } from '../_service/employee.service';
 import { environment } from '../../environments/environment';
+import { PaginationInstance } from 'ngx-pagination';
 
 @Component({
   selector: 'app-ticket-list',
@@ -18,20 +18,25 @@ export class TicketListComponent {
   filteredTicketList: Ticket[];
   addTicketModalRef: MdbModalRef<TicketAddComponent> | null = null;
   updateTableSubscription: Subscription;
+  tableConfig: PaginationInstance = {
+    itemsPerPage: 6,
+    currentPage: 1,
+    totalItems: 0
+  }
 
   @ViewChild('filter') filterKey: ElementRef;
 
   constructor(
     private ticketService: TicketService,
-    private employeeService: EmployeeService,
     private modalService: MdbModalService,
     private toast: NgToastService
   ) {}
 
   ngOnInit(): void {
-    this.findAll();
+    this.getTotalSize();
+    this.findAll(this.tableConfig.currentPage-1);
     this.updateTableSubscription = this.ticketService.updateTable().subscribe((text) => {
-      this.findAll();
+      this.resetTable();
       if(text.includes("Error")) {
         this.toast.error({detail: text, duration: 5000});
       } else {
@@ -40,36 +45,65 @@ export class TicketListComponent {
     });
   }
 
-  private findAll() {
-    this.ticketService.findAll().subscribe(data => {
+  private findAll(page: number) {
+    this.ticketService.findAllByPage(page, this.tableConfig.itemsPerPage).subscribe(data => {
       this.tickets = data;
       this.filteredTicketList = this.tickets;
-    })
+    });
+  }
+
+  private search(text: string, page: number) {
+    this.ticketService.search(text, page, this.tableConfig.itemsPerPage).subscribe(
+      data => {
+        this.filteredTicketList = data;
+    });
   }
 
   filterTicket(text: string) {
     if(!text) {
-      this.filteredTicketList = this.tickets;
+      this.resetTable();
       return;
     }
+    this.tableConfig.currentPage = 1;
+    this.ticketService.getSearchSize(text).subscribe(
+      data => {
+        this.tableConfig.totalItems = data;
+    });
 
-    this.filteredTicketList = this.tickets.filter(
-    data => data?.ticketNumber.toString() == text ||
-            data?.title.toLowerCase().includes(text.toLowerCase()) ||
-            data?.severity.toLowerCase() == text.toLowerCase() ||
-            data?.status.toLowerCase() == text.toLowerCase()
-    )
+    this.search(text, this.tableConfig.currentPage-1);
+  }
+
+  getTotalSize() {
+    this.ticketService.getListSize().subscribe(data => {
+      this.tableConfig.totalItems = data;
+    });
+  }
+
+  resetTable() {
+    this.getTotalSize();
+    this.tableConfig.currentPage = 1;
+    this.findAll(this.tableConfig.currentPage-1);
+  }
+
+  onPageChange(number: number){
+    this.tableConfig.currentPage = number;
+    if(this.filterKey.nativeElement.value) {
+      this.search(this.filterKey.nativeElement.value, this.tableConfig.currentPage-1);
+    } else {
+      this.findAll(this.tableConfig.currentPage-1);
+    }
   }
 
   clearFilter() {
     this.filterKey.nativeElement.value = '';
-    this.filteredTicketList = this.tickets;
+    this.resetTable();
   }
 
   openAddTicketModal() {
-    if(sessionStorage.getItem('role') == environment.ROLE_ADMIN){
+    const currentRole = sessionStorage.getItem('role')?.replace(/['"]+/g, '');
+    if(currentRole == environment.ROLE_ADMIN){
       this.addTicketModalRef = this.modalService.open(TicketAddComponent);  
-    } else if(sessionStorage.getItem('role') == environment.ROLE_USER) {
+    } else if(currentRole == environment.ROLE_USER) {
       this.toast.error({detail: "User has no access to this feature.", duration: 5000});
     }
   }

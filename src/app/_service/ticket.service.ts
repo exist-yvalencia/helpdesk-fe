@@ -19,6 +19,23 @@ export class TicketService {
   public findAll(): Observable<Ticket[]> {
     return this.http.get<Ticket[]>(`${environment.apiUrl}/ticket/all`);
   }
+
+  public findAllByPage(number: number, size: number): Observable<Ticket[]> {
+    return this.http.get<Ticket[]>(`${environment.apiUrl}/ticket/all?page=${number}&size=${size}`);
+  }
+
+  public getListSize() {
+    return this.http.get<number>(`${environment.apiUrl}/ticket/all/size`);
+  }
+
+  public search(text: string, page: number, size: number) {
+    return this.http.get<Ticket[]>(`${environment.apiUrl}/ticket/search?text=${text}&page=${page}&size=${size}`);
+  }
+  
+  public getSearchSize(text: string) {
+    return this.http.get<number>(`${environment.apiUrl}/ticket/search/size?text=${text}`);
+  }
+
   public findByAssignee(employeeId: string): Observable<Ticket[]> {
     return this.http.get<Ticket[]>(`${environment.apiUrl}/ticket/by-assignee?employeeId=${employeeId}`);
   }

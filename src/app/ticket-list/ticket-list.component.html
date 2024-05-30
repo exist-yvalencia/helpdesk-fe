@@ -34,7 +34,7 @@
             </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let ticket of filteredTicketList">
+            <tr *ngFor="let ticket of filteredTicketList | paginate: tableConfig">
                 <td>{{ticket.ticketNumber}}</td>
                 <td>{{ticket.title}}</td>
                 <td>{{ticket.severity}}</td>
@@ -45,5 +45,8 @@
             </tr>
         </tbody>
     </table>
+    <div class="pagination-div">
+        <pagination-controls (pageChange)="onPageChange($event)"></pagination-controls>
+    </div>
 </div>
 

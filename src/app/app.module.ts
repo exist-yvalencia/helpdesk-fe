@@ -22,6 +22,8 @@ import { EmployeeUpdateComponent } from './employee-update/employee-update.compo
 import { TicketViewComponent } from './ticket-view/ticket-view.component';
 import { TicketUpdateComponent } from './ticket-update/ticket-update.component';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
+import {NgxPaginationModule} from 'ngx-pagination';
+import { AccountAddComponent } from './account-add/account-add.component';
 
 @NgModule({
   declarations: [
@@ -37,7 +39,8 @@ import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
     EmployeeViewComponent,
     EmployeeUpdateComponent,
     TicketViewComponent,
-    TicketUpdateComponent
+    TicketUpdateComponent,
+    AccountAddComponent
   ],
   imports: [
     BrowserModule,
@@ -48,7 +51,8 @@ import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
     MdbModalModule,
     NgToastModule,
     NgbPagination,
-    NgMultiSelectDropDownModule
+    NgMultiSelectDropDownModule,
+    NgxPaginationModule
   ],
   providers: [
     {provide: HTTP_INTERCEPTORS, multi: true, useClass: HttpInterceptorService}
