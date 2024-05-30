@@ -10,6 +10,8 @@ import { TicketViewComponent } from '../ticket-view/ticket-view.component';
 import { TicketUpdateComponent } from '../ticket-update/ticket-update.component';
 import { environment } from '../../environments/environment';
 import { NgToastService } from 'ng-angular-popup';
+import { AccountService } from '../_service/account.service';
+import { Account } from '../_model/account.model';
 
 @Component({
   selector: 'app-module-actions',
@@ -23,6 +25,7 @@ export class ModuleActionsComponent {
   ticket: Ticket;
   assignedTickets: Ticket[];
   employeeList: Employee[];
+  account: Account;
   viewEmployeeModalRef: MdbModalRef<EmployeeViewComponent> | null = null;
   updateEmployeeModalRef: MdbModalRef<EmployeeUpdateComponent> | null = null;
 
@@ -31,6 +34,7 @@ export class ModuleActionsComponent {
 
   constructor(
     private employeeService: EmployeeService,
+    private accountService: AccountService,
     private modalService: MdbModalService,
     private ticketService: TicketService,
     private toast: NgToastService
@@ -43,6 +47,13 @@ export class ModuleActionsComponent {
       });
       this.ticketService.findByAssignee(`${this.id}`).subscribe(data => {
         this.assignedTickets = data;
+      });
+      this.accountService.findByEmployeeId(`${this.id}`).subscribe(data => {
+        if(data) {
+          this.account = data;
+        } else {
+          this.account = new Account;
+        }
       });
     } else if(sessionStorage.getItem('activeView') == 'ticket'){
       this.ticketService.findById(`${this.id}`).subscribe(data => {
@@ -60,7 +71,8 @@ export class ModuleActionsComponent {
       let config = {
         data: {
           employee: this.employee,
-          assignedTickets: this.assignedTickets
+          assignedTickets: this.assignedTickets,
+          account: this.account
         }
       }
 
@@ -76,12 +88,14 @@ export class ModuleActionsComponent {
   }
 
   update() {
-    if(sessionStorage.getItem('role') == environment.ROLE_ADMIN) {
+    const currentRole = sessionStorage.getItem('role')?.replace(/['"]+/g, '');
+    if(currentRole == environment.ROLE_ADMIN) {
       if(sessionStorage.getItem('activeView') == 'employee') {
         let config = {
           data: {
             employee: this.employee,
-            assignedTickets: this.assignedTickets
+            assignedTickets: this.assignedTickets,
+            account: this.account
           }
         }
         this.updateEmployeeModalRef = this.modalService.open(EmployeeUpdateComponent, config);
@@ -93,20 +107,22 @@ export class ModuleActionsComponent {
         }
         this.updateTicketModalRef = this.modalService.open(TicketUpdateComponent, config);
       }
-    } else if(sessionStorage.getItem('role') == environment.ROLE_USER){
+    } else if(currentRole == environment.ROLE_USER){
       this.toast.error({detail: "User has no access to this feature.", duration: 5000});
     }
     
   }
 
   delete() {
-    if(sessionStorage.getItem('role') == environment.ROLE_ADMIN) {
+    console.log("delete");
+    const currentRole = sessionStorage.getItem('role')?.replace(/['"]+/g, '');
+    if(currentRole == environment.ROLE_ADMIN) {
       if(sessionStorage.getItem('activeView') == 'employee') {
         this.employeeService.delete(`${this.id}`);
       } else if(sessionStorage.getItem('activeView') == 'ticket'){
         this.ticketService.delete(`${this.id}`);
       }
-    } else if(sessionStorage.getItem('role') == environment.ROLE_USER){
+    } else if(currentRole == environment.ROLE_USER){
       this.toast.error({detail: "User has no access to this feature.", duration: 5000});
     }
   }

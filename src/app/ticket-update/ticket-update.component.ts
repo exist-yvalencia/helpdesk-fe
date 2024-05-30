@@ -120,7 +120,7 @@ export class TicketUpdateComponent {
     }
 
     if(this.f.assignee.value) {
-      this.ticket.assignee = this.employeeList.find(employee => employee.id === this.f.assignee.value)!;
+      this.ticket.assignee = this.employeeList.find(employee => employee.id == this.f.assignee.value)!;
     }
 
     this.f.selectedWatchers.value.forEach(

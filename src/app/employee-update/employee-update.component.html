@@ -6,7 +6,6 @@
     </div>
     <div class="modal-body">
       <form [formGroup]="updateEmployeeForm" (ngSubmit)="updateEmployee()">
-        <div *ngIf="error" class="alert alert-danger mt-3 mb-0">{{error}}</div>
         <div class="mb-3 form-group row">
             <label class="col-3 col-form-label">Employee Number:</label>
             <div class="col-3">
@@ -66,12 +65,57 @@
               </select>
             </div>
         </div>
+        <div class="row">
+          <div class="col-12">
+            <button type="submit" class="col-3 btn btn-primary float-end" (click)="updateEmployee()">Update Info</button>
+          </div>
+        </div>
+      </form>
+      <form class="account-edit-form" [formGroup]="updateAccountForm" (ngSubmit)="updateAccount()">
+        <div class="mb-3 form-group row">
+            <label class="col-2 col-form-label">Username:</label>
+            <div class="col-4">
+              <input 
+                type="text" 
+                formControlName="username" 
+                class="form-control" 
+                placeholder={{account.username}}
+                [value]="account.username" />
+            </div>
+            <label class="col-2 col-form-label">Password:</label>
+            <div class="col-4">
+                <input 
+                type="password" 
+                formControlName="password" 
+                class="col-4 form-control" />
+            </div>
+        </div>
+        <div class="mb-3 form-group row">
+            <label class="col-2 col-form-label">Role:</label>
+            <div class="col-4 form-group">
+                <select class="form-control" formControlName="role" >
+                  <option value="" selected>{{roleMapping[account.role]}}</option>
+                  <option *ngFor="let role of getRoleList(account.role)" [value]="role">{{roleMapping[role]}}</option>
+                </select>
+            </div>
+            <label class="col-2 col-form-label">Confirm Password:</label>
+            <div class="col-4">
+                <input
+                    type="password" 
+                    formControlName="confirmPass" 
+                    class="form-control" 
+                    [ngClass]="{ 'is-invalid': accountForm.confirmPass.value && accountForm.password.value != accountForm.confirmPass.value }" />
+            </div>
+          </div>
+        <div *ngIf="accountForm.confirmPass.value && accountForm.password.value != accountForm.confirmPass.value" class="row alert alert-danger mt-3 mb-0 password-error">Passwords do not match</div>
+        <div class="row">
+          <div class="col-12">
+            <button type="submit" class="col-3 btn btn-primary float-end" (click)="updateAccount()">Update Account</button>
+          </div>
+        </div>
       </form>
     </div>
     <div class="modal-footer">
-      <button type="button" class="btn btn-secondary" (click)="close()">
-        Cancel
-      </button>
-      <button type="button" class="btn btn-primary" (click)="updateEmployee()">Update</button>
+      <button type="button" class="btn btn-primary" (click)="close()">Done</button>
     </div>  
   </div>

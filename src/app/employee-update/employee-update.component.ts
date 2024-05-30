@@ -6,6 +6,9 @@ import { MdbModalRef } from 'mdb-angular-ui-kit/modal';
 import { EmployeeService } from '../_service/employee.service';
 import { Ticket } from '../_model/ticket.model';
 import { TicketService } from '../_service/ticket.service';
+import { Account } from '../_model/account.model';
+import { Role, RoleMapping } from '../_model/enums/role';
+import { AccountService } from '../_service/account.service';
 
 @Component({
   selector: 'app-employee-update',
@@ -14,17 +17,20 @@ import { TicketService } from '../_service/ticket.service';
 })
 export class EmployeeUpdateComponent {
   employee: Employee;
+  account: Account;
   updateEmployeeForm: FormGroup;
-  submitted = false;
-  error = '';
+  updateAccountForm: FormGroup;
   tickets: Ticket[];
   assignedTickets: Ticket[];
-  public departmentMapping = DepartmentMapping;
-  public departmentList = Object.values(Department);
+  departmentMapping = DepartmentMapping;
+  departmentList = Object.values(Department);
+  roleMapping = RoleMapping;
+  roleList = Object.values(Role);
 
   constructor(
     private updateEmployeeModalRef: MdbModalRef<EmployeeUpdateComponent>,
     private employeeService: EmployeeService,
+    private accountService: AccountService,
     private ticketService: TicketService,
     private formBuilder: FormBuilder
   ){}
@@ -38,13 +44,21 @@ export class EmployeeUpdateComponent {
       lastName: [''],
       ticket: ['']
     });
+    this.updateAccountForm = this.formBuilder.group({
+      username: [''],
+      password: [''],
+      confirmPass: [''],
+      role: ['']
+    })
+
     this.tickets = [];
     this.ticketService.findAll().subscribe( data => {
       this.tickets = data;
     });
   }
 
-  get f() { return this.updateEmployeeForm.controls; }
+  get employeeForm() { return this.updateEmployeeForm.controls; }
+  get accountForm() { return this.updateAccountForm.controls; }
   
   close():void {
     this.updateEmployeeModalRef.close();
@@ -52,6 +66,10 @@ export class EmployeeUpdateComponent {
 
   getDepartmentList(dept: Department) {
     return this.departmentList.filter(x => x != dept);
+  }
+
+  getRoleList(role: Role) {
+    return this.roleList.filter(x => x != role);
   }
 
   getTicketList(): Ticket[] {
@@ -64,22 +82,40 @@ export class EmployeeUpdateComponent {
   }
 
   updateEmployee() {
-    this.submitted = true;
-
-    this.employee.employeeNumber = this.f.employeeNumber.value;
-    this.employee.firstName = this.f.firstName.value;
-    this.employee.middleName = this.f.middleName.value;
-    this.employee.lastName = this.f.lastName.value;
+    this.employee.employeeNumber = this.employeeForm.employeeNumber.value;
+    this.employee.firstName = this.employeeForm.firstName.value;
+    this.employee.middleName = this.employeeForm.middleName.value;
+    this.employee.lastName = this.employeeForm.lastName.value;
 
 
-    if(this.f.department.value) {
-      this.employee.department = this.f.department.value;
+    if(this.employeeForm.department.value) {
+      this.employee.department = this.employeeForm.department.value;
     }
-    if(this.f.ticket.value){
-      this.employeeService.assigneATicket(this.employee.id.toString(), this.f.ticket.value);
+    if(this.employeeForm.ticket.value){
+      this.employeeService.assigneATicket(this.employee.id.toString(), this.employeeForm.ticket.value);
     }
 
     this.employeeService.update(this.employee);
-    this.updateEmployeeModalRef.close();
+  }
+
+  updateAccount() {
+    if(this.updateAccountForm.invalid) {
+      return;
+    }
+
+    this.account.username = this.accountForm.username.value;
+    this.account.password = this.accountForm.password.value;
+    if(this.accountForm.role.value) {
+      this.account.role = this.accountForm.role.value;
+    }
+    if(this.account.employeeId) {
+      this.accountService.update(this.account);
+    } else {
+      this.account.employeeId = this.employee;
+      this.accountService.create(this.account);
+    }
+    
+
+    
   }
 }

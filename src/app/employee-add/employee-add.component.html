@@ -19,14 +19,6 @@
             </select>
           </div>
       </div>
-      <div class="mb-3 row">
-        <div *ngIf="submitted && f.employeeNumber.errors" class="invalid-feedback col-6">
-          <div *ngIf="f.employeeNumber.errors!.required">Employee Number is required</div>
-        </div>
-        <div *ngIf="submitted && f.department.errors" class="invalid-feedback col-6">
-          <div *ngIf="f.department.errors!.required">Department is required</div>
-        </div>
-      </div>
       <div class="mb-3 form-group row">
         <div class="col-4">
             <label class="form-label">First Name:</label>
@@ -40,18 +32,6 @@
           <label class="form-label">Last Name:</label>
           <input type="text" formControlName="lastName" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.lastName.errors }" />
         </div>
-        
-      </div>
-      <div class="mb-3 row">
-        <div *ngIf="submitted && f.firstName.errors" class="invalid-feedback col-4">
-          <div *ngIf="f.firstName.errors!.required">First Name is required</div>
-        </div>
-        <div *ngIf="submitted && f.middleName.errors" class="invalid-feedback col-4">
-          <div *ngIf="f.middleName.errors!.required">Middle Name is required</div>
-        </div>
-        <div *ngIf="submitted && f.lastName.errors" class="invalid-feedback col-4">
-          <div *ngIf="f.lastName.errors!.required">Last Name is required</div>
-        </div>
       </div>
     </form>
   </div>
@@ -59,7 +39,7 @@
     <button type="button" class="btn btn-secondary" (click)="close()">
       Cancel
     </button>
-    <button type="button" class="btn btn-primary" (click)="addEmployee()">Add</button>
+    <button type="button" class="btn btn-primary" (click)="addEmployee()">Next</button>
   </div>  
 </div>
 

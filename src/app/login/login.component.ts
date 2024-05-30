@@ -40,7 +40,7 @@ export class LoginComponent {
 
     onSubmit() {
         this.submitted = true;
-
+        
         if(this.loginForm.invalid) {
             return;
         }
@@ -50,7 +50,7 @@ export class LoginComponent {
         const headers = new HttpHeaders ({
             Authorization: 'Basic ' + token
         })
-        return this.http.get(`${environment.apiUrl}/login`, {headers, observe: 'response', responseType: 'text'})
+        return this.http.get(`${environment.apiUrl}/account/login`, {headers, observe: 'response', responseType: 'text'})
         .subscribe({
             next: res => {
                 if(res.status == 200) {

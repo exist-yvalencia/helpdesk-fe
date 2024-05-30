@@ -1,0 +1,57 @@
+<div class="modal-content"> 
+    <div class="modal-header">
+      <h5 class="modal-title" id="exampleModalLabel">Create Account</h5>
+      <button type="button" class="btn-close" aria-label="Close" (click)="close()"></button>
+    </div>
+    <div class="modal-body">
+        <form [formGroup]="addAccountForm" (ngSubmit)="addAccount()">
+            <div class="mb-3 form-group row">
+                <h6 class="col-1">ID: </h6>
+                <span class="col">{{employee.id}}</span>
+            </div>
+            <div class="mb-3 form-group row">
+                <label class="col-2 col-form-label">Username:</label>
+                <div class="col-4">
+                  <input type="text" formControlName="username" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.username.errors }" />
+                </div>
+            </div>
+            <div class="mb-3 form-group row">
+                <label class="col-2 col-form-label">Role:</label>
+                <div class="col-4 form-group">
+                    <select class="form-control" formControlName="role" [ngClass]="{ 'is-invalid': submitted && f.role.errors }">
+                    <option value="" disabled selected>Select a role</option>
+                    <option *ngFor="let role of roleList" [value]="role">{{roleMapping[role]}}</option>
+                    </select>
+                </div>
+            </div>
+            <div class="mb-3 form-group row">
+                <label class="col-2 col-form-label">Password:</label>
+                <div class="col-4">
+                    <input 
+                    type="password" 
+                    formControlName="password" 
+                    class="col-4 form-control" 
+                    [ngClass]="{ 'is-invalid': submitted && f.password.errors }" />
+                </div>
+            </div>
+            <div class="mb-3 form-group row">
+                <label class="col-3 col-form-label">Confirm Password:</label>
+                <div class="col-4">
+                    <input
+                        type="password" 
+                        formControlName="confirmPass" 
+                        class="form-control" 
+                        [ngClass]="{ 'is-invalid': submitted && f.confirmPass.errors || 
+                            (f.password.value != f.confirmPass.value && f.confirmPass.value) }" />
+                </div>
+            </div>
+            <div *ngIf="f.password.value != f.confirmPass.value && f.confirmPass.value" class="alert alert-danger mt-3 mb-0">Passwords do not match</div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="close()">
+            Cancel
+        </button>
+        <button type="button" class="btn btn-primary" (click)="addAccount()">Done</button>
+    </div>  
+</div>
