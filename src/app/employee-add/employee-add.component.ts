@@ -58,20 +58,23 @@ export class EmployeeAddComponent {
     this.employee.middleName = this.f.middleName.value;
     this.employee.lastName = this.f.lastName.value;
     
-    this.employeeService.create(this.employee).subscribe(res => {
-      if(res != null) {
-        let config = {
-          data: {
-            employee: res
+    this.employeeService.create(this.employee).subscribe({
+      next: res => {
+        if(res.status == 200) {
+          if(res.body){
+            let config = {
+              data: {
+                employee: res
+              }
+            }
+            this.employeeService.createResponse("Employee successfully created");
+            this.addAccountModalRef = this.modalService.open(AccountAddComponent, config);
           }
         }
-        this.employeeService.createResponse("Employee successfully created");
-        this.addAccountModalRef = this.modalService.open(AccountAddComponent, config);
-      } else {
-        this.employeeService.createResponse("Failed creating employee");
+      },
+      error: err => {
+        this.employeeService.createResponse("Error: Failed creating employee");
       }
     });
-    
-    this.addEmployeeModalRef.close();
   }
 }

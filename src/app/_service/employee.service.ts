@@ -42,7 +42,7 @@ export class EmployeeService {
   }
 
   public create(employee: Employee) {
-    return this.http.post<Employee>(`${environment.apiUrl}/employee/add`, employee);
+    return this.http.post<Employee>(`${environment.apiUrl}/employee/add`, employee, {observe:'response' });
   }
 
   public update(employee: Employee): void {
