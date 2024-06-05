@@ -1,5 +1,5 @@
 .side-bar {
-    background-color: #EFE0BD;
+    background-color: #E5E4E2;
     padding-top: 20px !important;
     padding: 0;
     border-right: 10px;
@@ -15,7 +15,7 @@
     color: #476930;
     font-weight: bold;
     padding-left: 50px;
-    background-color: #EFE0BD;
+    background-color: #E5E4E2;
 }
 
 .side-bar .list-group-item:hover {

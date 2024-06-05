@@ -12,6 +12,15 @@ a.nav-link:hover {
     cursor: pointer;
 }
 
+.btn-primary,
+.btn-primary:hover,
+.btn-primary:active,
+.btn-primary:visited,
+.btn-primary:focus {
+    background-color: #86B049 !important;
+    border-color: #86B049 !important;
+}
+
 thead tr th{
     background: #86B049 !important;
 }
