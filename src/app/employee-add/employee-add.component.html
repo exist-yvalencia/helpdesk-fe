@@ -4,7 +4,7 @@
     <button type="button" class="btn-close" aria-label="Close" (click)="close()"></button>
   </div>
   <div class="modal-body">
-    <form [formGroup]="addEmployeeForm" (ngSubmit)="addEmployee()">
+    <form [formGroup]="addEmployeeForm">
       <div *ngIf="error" class="alert alert-danger mt-3 mb-0">{{error}}</div>
       <div class="mb-3 form-group row">
           <label class="col-3 col-form-label">Employee Number:</label>

@@ -114,7 +114,6 @@ export class ModuleActionsComponent {
   }
 
   delete() {
-    console.log("delete");
     const currentRole = sessionStorage.getItem('role')?.replace(/['"]+/g, '');
     if(currentRole == environment.ROLE_ADMIN) {
       if(sessionStorage.getItem('activeView') == 'employee') {

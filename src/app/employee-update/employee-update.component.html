@@ -5,7 +5,7 @@
       <button type="button" class="btn-close" aria-label="Close" (click)="close()"></button>
     </div>
     <div class="modal-body">
-      <form [formGroup]="updateEmployeeForm" (ngSubmit)="updateEmployee()">
+      <form [formGroup]="updateEmployeeForm">
         <div class="mb-3 form-group row">
             <label class="col-3 col-form-label">Employee Number:</label>
             <div class="col-3">
@@ -71,7 +71,7 @@
           </div>
         </div>
       </form>
-      <form class="account-edit-form" [formGroup]="updateAccountForm" (ngSubmit)="updateAccount()">
+      <form class="account-edit-form" [formGroup]="updateAccountForm">
         <div class="mb-3 form-group row">
             <label class="col-2 col-form-label">Username:</label>
             <div class="col-4">

@@ -4,7 +4,7 @@
       <button type="button" class="btn-close" aria-label="Close" (click)="close()"></button>
     </div>
     <div class="modal-body">
-        <form [formGroup]="addAccountForm" (ngSubmit)="addAccount()">
+        <form [formGroup]="addAccountForm">
             <div class="mb-3 form-group row">
                 <h6 class="col-1">ID: </h6>
                 <span class="col">{{employee.id}}</span>

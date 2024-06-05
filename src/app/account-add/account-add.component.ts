@@ -53,7 +53,6 @@ export class AccountAddComponent {
     this.account.password = this.f.password.value;
     this.account.role = this.f.role.value;
     this.account.employeeId = this.employee;
-    console.log(this.employee);
 
     this.accountService.create(this.account);
     this.addAccountModalRef.close();
