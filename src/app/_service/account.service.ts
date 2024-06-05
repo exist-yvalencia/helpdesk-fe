@@ -33,7 +33,7 @@ export class AccountService {
   }
 
   public update(account: Account): void{
-    this.http.patch(`${environment.apiUrl}/account/update`, account, {observe: 'response', responseType: 'text'}).subscribe({
+    this.http.post(`${environment.apiUrl}/account/update`, account, {observe: 'response', responseType: 'text'}).subscribe({
       next: res => {
         if(res.status == 200) {
           if(res.body){
