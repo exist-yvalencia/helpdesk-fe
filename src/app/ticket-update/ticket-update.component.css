@@ -1,0 +1,18 @@
+ng-multiselect-dropdown::ng-deep .multiselect-dropdown .dropdown-btn .selected-item {
+    background-color: #86B049 !important;
+    border-color: #86B049 !important;
+    min-width: fit-content !important;
+}
+
+ng-multiselect-dropdown::ng-deep .multiselect-dropdown .dropdown-btn .selected-item a{
+    color: red !important;
+}
+
+ng-multiselect-dropdown::ng-deep .multiselect-item-checkbox 
+ input[type=checkbox]:checked + div:before {
+    background-color: #86B049 !important;
+ }
+ ng-multiselect-dropdown::ng-deep .multiselect-item-checkbox 
+ input[type=checkbox] + div:before {
+    border: 2px solid #86B049 !important;
+ }
