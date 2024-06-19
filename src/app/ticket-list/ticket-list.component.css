@@ -16,3 +16,7 @@
 pagination-controls {
     float: right;
 }
+
+pagination-controls::ng-deep .current {
+    background-color: #86B049 !important;
+}
